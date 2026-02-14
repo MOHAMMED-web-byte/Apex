@@ -1,0 +1,239 @@
+# Excel Analyzer + AI Chatbot - VS Code Version
+
+A powerful Python tool that analyzes large Excel files (4M+ rows) and creates an interactive AI chatbot to query your data.
+
+## Features
+
+- ✅ Analyze Excel files (.xlsx) with millions of rows
+- ✅ Load pre-analyzed text files (.txt) for instant chatbot access
+- ✅ Pre-calculates totals, averages, highest/lowest values
+- ✅ Extracts company/institution metadata
+- ✅ Interactive AI chatbot powered by OpenAI
+- ✅ Fast in-memory SQLite database for queries
+- ✅ Handles numeric columns automatically
+
+## Installation
+
+### 1. Install Python Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Or install individually:
+
+```bash
+pip install openpyxl openai python-dotenv
+```
+
+### 2. Set Up OpenAI API Key
+
+**Option A: Using .env file (Recommended)**
+
+Create a `.env` file in the same directory as the script:
+
+```bash
+echo "OPENAI_API_KEY=your_openai_api_key_here" > .env
+```
+
+**Option B: Using Environment Variable**
+
+```bash
+# Linux/Mac
+export OPENAI_API_KEY=your_openai_api_key_here
+
+# Windows (Command Prompt)
+set OPENAI_API_KEY=your_openai_api_key_here
+
+# Windows (PowerShell)
+$env:OPENAI_API_KEY="your_openai_api_key_here"
+```
+
+## Usage
+
+### Run the Script
+
+```bash
+python excel_analyzer_chatbot.py
+```
+
+### Input Your File
+
+When prompted, enter the path to your file:
+
+- **Excel file**: `/path/to/your/file.xlsx`
+- **Pre-analyzed text file**: `/path/to/your/file.txt`
+
+**Tips:**
+- You can drag and drop files into the terminal on most systems
+- Use absolute or relative paths
+- Quotes around path are optional
+
+### Example Session
+
+```
+📁 Enter file path (.xlsx or .txt): data/sales_report.xlsx
+
+MODE: ANALYZING EXCEL FILE
+================================================================================
+
+📂 Reading: data/sales_report.xlsx
+✅ Header at row 5
+📊 12 columns
+✅ 3 numeric columns
+⏳ Processing rows...
+   10,000 rows...
+   20,000 rows...
+✅ Processed 25,432 rows
+
+✅ Analysis complete (8.45s)
+
+LOADING INTO CHATBOT
+================================================================================
+
+📂 Loading data...
+✅ 25,432 rows loaded
+✅ Extracted 47 values
+⏳ Creating database...
+✅ Database ready!
+✅ Loaded (2.31s)
+
+READY FOR QUESTIONS!
+================================================================================
+
+💡 Ask questions:
+  • 'Company name'
+  • 'Total rows'
+  • 'Total MRP'
+  • 'Highest BILLAMOUNT'
+  • 'Show first 10 rows'
+  • Type 'exit' to quit
+================================================================================
+
+🗣️  You: What is the company name?
+
+🤖 Answer (0.52s):
+----------------------------------------------------------------------
+The company name is ABC Corporation Ltd.
+----------------------------------------------------------------------
+
+🗣️  You: What is the total MRP?
+
+🤖 Answer (0.61s):
+----------------------------------------------------------------------
+The total MRP is 1,234,567.89
+----------------------------------------------------------------------
+
+🗣️  You: exit
+
+👋 Goodbye!
+```
+
+## Supported Questions
+
+### Metadata Queries
+- "What is the company name?"
+- "Show me the company details"
+- "How many rows are there?"
+- "What columns are available?"
+
+### Statistical Queries
+- "Total [COLUMN_NAME]"
+- "Average [COLUMN_NAME]"
+- "Highest [COLUMN_NAME]"
+- "Lowest [COLUMN_NAME]"
+
+### Data Queries
+- "Show first 10 rows"
+- "Search for [VALUE] in [COLUMN]"
+- "Show me rows with [CRITERIA]"
+
+### Complete Row Data
+- "Show the row with highest [COLUMN_NAME]"
+- "Show the row with lowest [COLUMN_NAME]"
+
+## File Formats
+
+### Excel Files (.xlsx)
+The script automatically:
+- Detects metadata/header rows
+- Identifies numeric columns
+- Processes all data rows
+- Generates comprehensive summary
+- Creates searchable database
+
+### Pre-analyzed Text Files (.txt)
+If you've already analyzed an Excel file, you can save the output and reload it later without re-analyzing:
+
+1. First run: Analyze Excel file
+2. Save the complete output (with summary and data table)
+3. Later: Load the .txt file directly for instant chatbot access
+
+## Performance
+
+- **Small files** (<10K rows): ~1-2 seconds
+- **Medium files** (10K-100K rows): ~5-15 seconds  
+- **Large files** (100K-1M rows): ~30-90 seconds
+- **Very large files** (1M-4M rows): ~2-10 minutes
+
+Memory usage is optimized with streaming reads and in-memory SQLite.
+
+## Troubleshooting
+
+### API Key Issues
+
+```
+❌ ERROR: OPENAI_API_KEY not set
+```
+
+**Solution**: Make sure you've set up your OpenAI API key (see Installation step 2)
+
+### File Not Found
+
+```
+❌ File not found: /path/to/file.xlsx
+```
+
+**Solution**: 
+- Check the file path is correct
+- Use absolute path if relative path doesn't work
+- Remove any extra quotes around the path
+
+### Analysis Failed
+
+```
+❌ ERROR: Could not detect header
+```
+
+**Solution**: The Excel file might have an unusual structure. The script expects:
+- Metadata/company info in first few rows
+- Clear header row with column names
+- Data rows following the header
+
+### Import Errors
+
+```
+ModuleNotFoundError: No module named 'openpyxl'
+```
+
+**Solution**: Install dependencies: `pip install -r requirements.txt`
+
+## Technical Details
+
+- **Language**: Python 3.7+
+- **Database**: SQLite (in-memory)
+- **AI Model**: GPT-4o-mini (via OpenAI API)
+- **Excel Library**: openpyxl
+- **Max File Size**: 4M+ rows (tested)
+
+## License
+
+This script is provided as-is for data analysis purposes.
+
+## Support
+
+For issues or questions:
+1. Check the Troubleshooting section above
+2. Verify your file format matches expected structure
+3. Ensure all dependencies are installed
+4. Check OpenAI API key is valid and has credits
